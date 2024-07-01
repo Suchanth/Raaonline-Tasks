@@ -15,23 +15,23 @@ export class TasksComponent implements OnInit {
   todoCompleted: Todo[] = [];
   constructor(private taskService: TasksService) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.taskService.getData().subscribe((data) => {
       if (Array.isArray(data)) {
-        this.todo = data;
+        this.todo = data; //Fetch the data from the api.
       }
     });
   }
-
   changeTocomplete(item: any) {
-    this.todoCompleted.push(item);
-    this.todo = this.todo.filter((todo) => todo.id !== item.id);
+    item.completed = true;
+    this.todoCompleted.push(item); //Push the value in the todoCompleted
+    this.todo = this.todo.filter((todo) => todo.completed === false);
   }
-
   RemoveFromList(item: any) {
+    item.completed = false;
+    this.todo.push(item); //Push the value it in todo
     this.todoCompleted = this.todoCompleted.filter(
-      (todo) => todo.id !== item.id
+      (todo) => todo.completed === true
     );
-    this.todo.push(item);
   }
 }
